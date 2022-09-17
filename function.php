@@ -1,20 +1,20 @@
 <?php
-error_reporting(0);
+//error_reporting(0);
+header("Content-type:application/json");
 $conn = mysqli_connect("localhost", "root", "", "test") or die("Connection is failed. " . mysqli_connect_error());
-
-$jsonData = json_encode(["name" => "Vikash kumar", "email" => "viskah@gmail.com", "mobile" => "9638587410"]);
-// $jsonToArray = file_get_content(json_decode("php://input"),true);
-$jsonToArray = json_decode($jsonData, true);
-
+$jsonToArray = json_decode(file_get_contents('php://input'), true);
 $keys = array_keys($jsonToArray);
 $values = array_values($jsonToArray);
+// $jsonData = json_encode(["name" => "Vikash kumar", "email" => "viskah@gmail.com", "mobile" => "9638587410"]);
+// $jsonToArray = json_decode($jsonData, true);   
+// print_r($jsonToArray) ;die;
+// die;
 
-if (isset($_GET['insert'])) { InsertData($keys, $values, $conn); } 
-elseif (isset($_GET['update_user_id'])) {UpdateData(trim($_GET['update_user_id']), $keys, $values, $conn); }
-elseif (isset($_GET['delete_user_id'])) { DeleteUser(trim($_GET['delete_user_id']), $conn);}
-elseif (isset($_GET['fetch'])) { FetchData(trim($_GET['fetch']), $conn); } 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){ if (isset($_GET['insert'])) { InsertData($keys, $values, $conn); } }
+elseif($_SERVER['REQUEST_METHOD'] === 'GET'){ if (isset($_GET['fetch'])) { FetchData(trim($_GET['fetch']), $conn); } }
+elseif($_SERVER['REQUEST_METHOD'] === 'PUT' || $_SERVER['REQUEST_METHOD'] === 'PATCH'){ if (isset($_GET['update_user_id'])) { UpdateData(trim($_GET['update_user_id']), $keys, $values, $conn); } }
+elseif($_SERVER['REQUEST_METHOD'] === "DELETE"){ if (isset($_GET['delete_user_id'])) { DeleteUser(trim($_GET['delete_user_id']), $conn); } }
 else { echo json_encode(['status' => 'error', 'message' => 'unauthorized access!']); die(); }
-
 
 // Insert function
 function InsertData($keys, $values, $conn)
