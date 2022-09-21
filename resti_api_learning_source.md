@@ -6,3 +6,4 @@
 4. https://tutorialsclass.com/php-rest-api-post-data-using-curl/
 5. https://tutorialsclass.com/php-rest-api-put-update-data-using-curl/
 6. https://tutorialsclass.com/php-rest-api-delete-data-using-curl/
+7. https://www.phptutorial.net/php-oop/php-traits/
